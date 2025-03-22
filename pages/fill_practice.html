@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>填空练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body,
+        html {
+            -ms-overflow-style: none;
+            /* IE 和 Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        /* iOS 状态栏 - 修改为白底黑字 */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: #ffffff;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ios-status-bar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .ios-status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 灵动岛 */
+        .dynamic-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1003;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .dynamic-island-dot {
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+        }
+
+        /* 微信状态栏样式 */
+        .wx-status-bar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            /* 修改高度为 45px */
+            height: 45px;
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            /* 添加底部边框 */
+        }
+
+        .wx-status-bar-top {
+            /* 修改高度为 0，因为不需要这个顶部区域了 */
+            height: 0;
+            width: 100%;
+            background: #ffffff;
+        }
+
+        .wx-nav-bar {
+            /* 修改高度为 45px */
+            height: 45px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-nav-bar-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .wx-capsule {
+            position: fixed;
+            right: 7px;
+            /* 调整 top 为 44px + 45px */
+            top: 48px;
+            height: 28px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+        }
+
+        .wx-capsule-button {
+            height: 28px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-capsule-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 2px;
+        }
+
+        .main-content {
+            padding-top: 130px;
+            padding-bottom: 90px;
+        }
+
+        /* 可以根据需要添加更多样式 */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .passage {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .answer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question {
+            width: calc(50% - 100px);
+            display: flex;
+            align-items: center;
+        }
+
+        .question span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .input {
+            margin-left: 0;
+        }
+
+        button {
+            margin-top: 20px;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        .answer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .answer-container .question {
+            width: calc(50% - 5px);
+            /* 每行显示 2 个输入框 */
+        }
+
+        /* 答题进度条样式 */
+        .progress-bar {
+            position: fixed;
+            bottom: 50px;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background-color: #e2e8f0;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #48bb78;
+            width: 0;
+        }
+
+        /* 答题卡按钮样式 */
+        .answer-sheet-btn {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            background-color: #48bb78;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 底部按钮样式 */
+        .bottom-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .bottom-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- iOS 状态栏 -->
+    <div class="ios-status-bar">
+        <div class="ios-status-bar-left">9:41</div>
+        <div class="ios-status-bar-right">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <div class="dynamic-island-dot"></div>
+        <span>正在学习中...</span>
+    </div>
+
+    <!-- 微信状态栏 -->
+    <div class="wx-status-bar">
+        <div class="wx-nav-bar">
+            <!-- 添加返回按钮 -->
+            <button class="absolute left-4 text-black text-xl" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="wx-nav-bar-title">填空练习</div>
+        </div>
+    </div>
+
+    <!-- 胶囊按钮 -->
+    <div class="wx-capsule">
+        <div class="wx-capsule-button">
+            <i class="fas fa-minus text-black text-sm"></i>
+        </div>
+        <div class="wx-capsule-divider"></div>
+        <div class="wx-capsule-button">
+            <i class="fas fa-times text-black text-sm"></i>
+        </div>
+    </div>
+
+    <!-- 答题进度和答题卡按钮 -->
+    <!-- 修改为固定定位，调整 top 值 -->
+    <div class="pt-2 pb-2 pl-4 pr-4 flex justify-between items-center fixed top-[89px] left-0 right-0 bg-white shadow-md"> 
+        <!-- 音频播放器 -->
+        <div class="flex-shrink-0 mr-2 relative">
+        </div>
+        <div class="flex-grow pr-4">
+            <p class="text-sm mb-1">2022级高三校际联合考试</p>
+            <div class="bg-gray-200 rounded-full h-1 w-full">
+                <div class="bg-blue-600 h-1 rounded-full" style="width: 5%;"></div> <!-- 假设进度为 5%，可根据实际情况修改 -->
+            </div>
+        </div>
+        <!-- 缩小答题卡按钮字体 -->
+        <button class="bg-blue-500 text-white p-2 rounded-md text-xs">答题卡(1/20)</button>
+    </div>
+
+    <!-- 添加用于显示短文内容的容器 -->
+    <div id="original-content" class="main-content">
+        <div id="answer-container" class="p-4"></div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-4">
+        <button class="text-gray-400">
+            <i class="fas fa-arrow-left text-xl"></i>
+            <div class="text-xs mt-1">上一篇</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-arrow-right text-xl"></i>
+            <div class="text-xs mt-1">下一篇</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-heart text-xl"></i>
+            <div class="text-xs mt-1">收藏</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-question-circle text-xl"></i>
+            <div class="text-xs mt-1">解答</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-share-alt text-xl"></i>
+            <div class="text-xs mt-1">反馈</div>
+        </button>
+    </div>
+
+    <script>
+        const data = {
+            "content": "もしも私たちが太陽に向かって＿51＿（歩き出す）たら、影は自分の後ろにできます。つまり、太陽の方を向いていれば、自分の影を見ることはできないのです。私たちが明るい方へ向かって行動すれば、暗い部分は＿52＿（見える）なり、常に明るい気持ちで行動できるというわけです。私たちは、自分にとって悪いことや不都合なことが起きた時、または大きな失敗をした時に、＿53＿（ひどい）落ち込み、悩み苦しんでしまう時があります。そして、悪い方へ悪い方へと考えて＿54＿（しまう）がちになり、物事がますます悪い方へ＿55＿（すす）んでしまうことがあるわけです。そんな時こそ、希望に満ちた明るい気持ちになれれば、暗い気持ちや不安な気持ちが和らぎ、少し元気＿56＿出てくるということはよくある話です。じめじめした（潮湿的）暗い部屋にいる＿57＿、太陽が照っている明るい＿58＿（場所）にいるほうが明るく前向きな気持ちになれるのと＿59＿（同じだ）ように、気持ちの持ち方一つで、私たちの考え方、行動が変わり、もっと言えば人生が変わるのです。太陽に背＿60＿向ければ、自分の影が大きく見えてしまい、悪いことば",
+            "answers": {
+                "51": "歩き出し",
+                "52": "見え",
+                "53": "ひどく",
+                "54": "しまい",
+                "55": "進み",
+                "56": "が",
+                "57": "より",
+                "58": "場所",
+                "59": "同じだ",
+                "60": "を"
+            }
+        };
+    
+        let currentQuestionIndex = 0;
+    
+        // 以下是简单的答案检查函数示例
+        function checkAnswers() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            const contentDiv = document.getElementById('answer-container');
+            const inputs = contentDiv.querySelectorAll('input');
+            let correctCount = 0;
+            inputs.forEach((input, index) => {
+                const questionNumber = input.id.replace('answer-', '');
+                const userAnswer = input.value;
+                const correctAnswer = data.answers[questionNumber];
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correctCount++;
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            });
+            resultDiv.innerHTML = `正解数: ${correctCount} / ${inputs.length}`;
+        }
+    
+        // 动态生成填空练习内容
+        function generateContent() {
+            const answerContainer = document.getElementById('answer-container');
+            const regex = /＿(\d+)＿/g;
+            let newContent = '';
+            let lastIndex = 0;
+            let match;
+            let inputsHTML = '<div class="answer-container">';
+    
+            // 先显示完整短文内容
+            newContent = data.content.replace(regex, `<span class="question-number">$1</span>`);
+    
+            // 生成输入框
+            while ((match = regex.exec(data.content)) !== null) {
+                const number = match[1];
+                inputsHTML += `<div class="question">
+                    <span>${number}</span>
+                    <input type="text" id="answer-${number}" class="input" oninput="updateProgress()">
+                </div>`;
+            }
+    
+            inputsHTML += '</div>';
+            
+            // 将短文内容和输入框组合
+            answerContainer.innerHTML = `<div class="passage">${newContent}</div>${inputsHTML}`;
+        }
+    
+        // 更新答题进度条
+        function updateProgress() {
+            const contentDiv = document.getElementById('answer-container');
+            const inputs = contentDiv.querySelectorAll('input');
+            let filledCount = 0;
+            inputs.forEach(input => {
+                if (input.value.trim()!== '') {
+                    filledCount++;
+                }
+            });
+            const progress = (filledCount / inputs.length) * 100;
+            const progressBar = document.getElementById('progress');
+            progressBar.style.width = `${progress}%`;
+        }
+    
+        // 显示答题卡（这里简单模拟，可根据需求完善）
+        function showAnswerSheet() {
+            alert('显示答题卡功能待完善');
+        }
+    
+        // 上一题
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                // 这里可以添加滚动到上一题的逻辑
+            }
+        }
+    
+        // 下一题
+        function nextQuestion() {
+            const contentDiv = document.getElementById('answer-container');
+            const inputs = contentDiv.querySelectorAll('input');
+            if (currentQuestionIndex < inputs.length - 1) {
+                currentQuestionIndex++;
+                // 这里可以添加滚动到下一题的逻辑
+            }
+        }
+    
+        // 页面加载时生成内容
+        window.onload = generateContent;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作文练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body, html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* iOS 状态栏 - 修改为白底黑字 */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: #ffffff;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ios-status-bar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .ios-status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 灵动岛 */
+        .dynamic-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1003;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .dynamic-island-dot {
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+        }
+
+        /* 微信状态栏样式 */
+        .wx-status-bar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            height: 45px;
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .wx-status-bar-top {
+            height: 0;
+            width: 100%;
+            background: #ffffff;
+        }
+
+        .wx-nav-bar {
+            height: 45px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-nav-bar-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .wx-capsule {
+            position: fixed;
+            right: 7px;
+            top: 48px;
+            height: 28px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+        }
+
+        .wx-capsule-button {
+            height: 28px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-capsule-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 2px;
+        }
+
+        .main-content {
+            padding-top: 90px;
+            padding-bottom: 90px;
+        }
+
+        /* 作文内容区域 */
+        .writing-container {
+            padding: 20px;
+        }
+
+        .writing-prompt {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+        }
+        #answerSheetModal {
+            transition: opacity 0.3s ease;
+        }
+
+        #answerSheetModal .bg-white {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #answerSheetModal .bg-gray-100 {
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- iOS 状态栏 -->
+    <div class="ios-status-bar">
+        <div class="ios-status-bar-left">9:41</div>
+        <div class="ios-status-bar-right">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <div class="dynamic-island-dot"></div>
+        <span>正在写作中...</span>
+    </div>
+
+    <!-- 微信状态栏 -->
+    <div class="wx-status-bar">
+        <div class="wx-nav-bar">
+            <button class="absolute left-4 text-black text-xl" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="wx-nav-bar-title">作文练习</div>
+        </div>
+    </div>
+
+    <!-- 胶囊按钮 -->
+    <div class="wx-capsule">
+        <div class="wx-capsule-button">
+            <i class="fas fa-minus text-black text-sm"></i>
+        </div>
+        <div class="wx-capsule-divider"></div>
+        <div class="wx-capsule-button">
+            <i class="fas fa-times text-black text-sm"></i>
+        </div>
+    </div>
+
+        <!-- 答题进度和答题卡按钮 -->
+    <!-- 修改为固定定位，调整 top 值 -->
+    <div class="pt-2 pb-2 pl-4 pr-4 flex justify-between items-center fixed top-[89px] left-0 right-0 bg-white shadow-md"> 
+        <!-- 音频播放器 -->
+        <div class="flex-shrink-0 mr-2 relative">
+        </div>
+        <div class="flex-grow pr-4">
+            <p class="text-sm mb-1">2022级高三校际联合考试</p>
+            <div class="bg-gray-200 rounded-full h-1 w-full">
+                <div class="bg-blue-600 h-1 rounded-full" style="width: 5%;"></div> <!-- 假设进度为 5%，可根据实际情况修改 -->
+            </div>
+        </div>
+        <!-- 缩小答题卡按钮字体 -->
+        <button class="bg-blue-500 text-white p-2 rounded-md text-xs">答题卡(1/2)</button>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="main-content">
+        <div class="writing-container">
+            <div class="writing-prompt">
+                请根据以下题目写一篇不少于300字的作文：<br>
+                题目：我的梦想
+            </div>
+            <textarea placeholder="在这里输入你的作文内容..."></textarea>
+        </div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-4">
+        <button class="text-gray-400">
+            <i class="fas fa-arrow-left text-xl"></i>
+            <div class="text-xs mt-1">上一题</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-arrow-right text-xl"></i>
+            <div class="text-xs mt-1">下一题</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-heart text-xl"></i>
+            <div class="text-xs mt-1">收藏</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-question-circle text-xl"></i>
+            <div class="text-xs mt-1">解答</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-comment-dots text-xl"></i>  <!-- 修改为更合适的反馈图标 -->
+            <div class="text-xs mt-1">反馈</div>
+        </button>
+    </div>
+</body>
+<!-- 在body底部添加弹窗 -->
+<div id="answerSheetModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-[1004]">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg w-11/12 max-w-md p-6 relative">
+            <!-- 添加关闭按钮 -->
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" onclick="closeAnswerSheet()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-lg font-bold mb-4">答题卡</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-medium mb-2">第一节</h4>
+                    <div id="part1Content" class="bg-gray-100 p-3 rounded"></div>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-2">第二节</h4>
+                    <div id="part2Content" class="bg-gray-100 p-3 rounded"></div>
+                </div>
+            </div>
+            <div class="mt-6">
+                <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="submitAnswers()">
+                    交卷
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+
+<script>
+    const writingData = [
+        {
+            "part": 1,
+            "contents": [
+                {
+                    "type": "desc",
+                    "content": "高三2班的李明同学，周五放学后发现自己的黑色手表不见了。回想可能是在操场打篮球时不慎掉落了？请你以李明的名义用日语帮他写一个寻物启事，希望有线索者联系李明。"
+                },
+                {
+                    "type": "requires",
+                    "content": "写作要求：\n1. 字数为80～120字左右。\n2. 格式正确，书写清楚。\n3. 使用「です・ます」体。"
+                },
+                {
+                    "type": "reference_words",
+                    "content": "参考词汇：\n寻物启事：物品紛失届\n线索：心当たり"
+                }
+            ],
+            "answer": "物品紛失届\n金曜日、放課後に腕時計がなくなったことに気づきました。黒いのです。運動場でバスケットボールをしている時に落としてしまった可能性があると思います。もし、心当たりのある方は 3 年 2 組の李明までお願いします。\nよろしくお願いいたします。（117 字）\n李明"
+        },
+        {
+            "part": 2,
+            "contents": [
+                {
+                    "type": "desc",
+                    "content": "新年期间，外出聚餐的人越来越多。光明市就消费者选择餐厅时的主要因素进行了调查研究，结果如下。请你根据这份问卷结果，以「レストランの選びについて」为题，写一篇日语短文。"
+                },
+                {
+                    "type": "img",
+                    "content": "可能包含图片信息，请手动处理"
+                },
+                {
+                    "type": "points",
+                    "content": "写作要点：\n1. 简要描述图表信息。\n2. 请结合自己的经验，谈一谈你自己关注的因素。\n3. 阐明你关注该因素的原因。"
+                },
+                {
+                    "type": "requires",
+                    "content": "写作要求：\n1. 字数为280～320字左右。\n2. 格式正确，书写清楚。\n3. 使用「です・ます」体。"
+                }
+            ],
+            "answer": "レストランの選びについて\n光明市の調査によると、消費者がレストランを選ぶ際の主な要因は、サービス（36.3%）、値段（26.8%）、雰囲気（23.8%）、人気料理（8.4%）、その他（4.7%）となっています。この結果から、サービスが最も重視されていることがわかります。\n私自身は、レストランを選ぶ際に雰囲気を最も重視します。なぜなら、雰囲気が良いと食事がより楽しくなるからです。また、雰囲気が良いレストランは、サービスの質も高いことが多いです。\nこのように、レストランを選ぶ際には、さまざまな要因がありますが、自分にとって最も重要な要素を考えることが大切だと思います。"
+        }
+    ];
+
+    let currentPart = 0;
+
+    function renderWritingPart(partIndex) {
+        const partData = writingData[partIndex];
+        const container = document.querySelector('.writing-container');
+        container.innerHTML = `
+            <div class="mb-4">
+                <h2 class="text-xl font-bold mb-2">第${partData.part}部分</h2>
+                ${partData.contents.map(content => {
+                    let processedContent = content.content.replace(/\n/g, '<br>');
+                    if (content.type === 'desc') {
+                        return `<div class="mb-4">${processedContent}</div>`;
+                    } else if (content.type === 'requires') {
+                        return `<div class="bg-gray-100 p-4 rounded mb-4">${processedContent}</div>`;
+                    } else if (content.type === 'reference_words') {
+                        return `<div class="bg-blue-50 p-4 rounded mb-4">${processedContent}</div>`;
+                    } else if (content.type === 'points') {
+                        return `<div class="bg-yellow-50 p-4 rounded mb-4">${processedContent}</div>`;
+                    } else if (content.type === 'img') {
+                        return `<div class="mb-4">图片处理区域</div>`;
+                    }
+                }).join('')}
+            </div>
+            <textarea placeholder="在这里输入你的作文内容..."></textarea>
+            ${partIndex === 0 ? `<div class="mt-4">
+                <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="switchPart(1)">
+                    下一节
+                </button>
+            </div>` : ''}
+        `;
+    }
+
+    function switchPart(direction) {
+        currentPart = Math.max(0, Math.min(writingData.length - 1, currentPart + direction));
+        renderWritingPart(currentPart);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderWritingPart(0);
+    });
+
+    // 新增函数：显示答题卡弹窗
+    function showAnswerSheet() {
+        const part1Content = document.querySelectorAll('textarea')[0].value;
+        const part2Content = document.querySelectorAll('textarea')[1]?.value || '未作答';
+        
+        document.getElementById('part1Content').textContent = part1Content || '未作答';
+        document.getElementById('part2Content').textContent = part2Content || '未作答';
+        document.getElementById('answerSheetModal').classList.remove('hidden');
+    }
+
+    // 新增函数：提交答案
+    function submitAnswers() {
+        // 这里可以添加提交逻辑
+        alert('已提交');
+        closeAnswerSheet();
+    }
+
+    // 新增函数：关闭答题卡弹窗
+    function closeAnswerSheet() {
+        document.getElementById('answerSheetModal').classList.add('hidden');
+    }
+
+    // 修改答题卡按钮的点击事件
+    document.querySelector('.bg-blue-500').addEventListener('click', showAnswerSheet);
+</script>

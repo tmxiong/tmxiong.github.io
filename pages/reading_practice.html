@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅读练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body,
+        html {
+            -ms-overflow-style: none;
+            /* IE 和 Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        /* iOS 状态栏 - 修改为白底黑字 */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: #ffffff;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ios-status-bar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .ios-status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 灵动岛 */
+        .dynamic-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1003;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .dynamic-island-dot {
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+        }
+
+        /* 微信状态栏样式 */
+        .wx-status-bar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            /* 修改高度为 45px */
+            height: 45px;
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            /* 添加底部边框 */
+        }
+
+        .wx-status-bar-top {
+            /* 修改高度为 0，因为不需要这个顶部区域了 */
+            height: 0;
+            width: 100%;
+            background: #ffffff;
+        }
+
+        .wx-nav-bar {
+            /* 修改高度为 45px */
+            height: 45px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-nav-bar-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .wx-capsule {
+            position: fixed;
+            right: 7px;
+            /* 调整 top 为 44px + 45px */
+            top: 48px;
+            height: 28px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+        }
+
+        .wx-capsule-button {
+            height: 28px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-capsule-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 2px;
+        }
+
+        .main-content {
+            padding-top: 90px;
+        }
+
+        /* 可以根据需要添加更多样式 */
+        /* 增大 radio 按钮的大小 */
+        input[type="radio"] {
+            width: 20px;
+            /* 增大宽度 */
+            height: 20px;
+            /* 增大高度 */
+            vertical-align: middle;
+            /* 垂直居中对齐 */
+            margin-top: -2px;
+            /* 微调垂直位置 */
+        }
+
+        label {
+            vertical-align: middle;
+            /* 垂直居中对齐 */
+        }
+
+        .scrollable-container {
+            scrollbar-width: none;
+            overflow-y: auto;
+            max-height: calc(100vh - 90px);
+        }
+
+        /* 蓝色按钮样式 */
+        .blue-button {
+            background-color: #3b82f6;
+            /* 蓝色背景 */
+            color: white;
+            /* 白色文字 */
+            padding: 8px 16px;
+            /* 内边距 */
+            border-radius: 4px;
+            /* 圆角 */
+            border: none;
+            /* 去除边框 */
+            cursor: pointer;
+            /* 鼠标指针样式 */
+            display: flex;
+            align-items: center;
+            width: calc((100% - 30px)/2);
+            justify-content: center;
+        }
+
+        .blue-button:hover {
+            background-color: #2563eb;
+            /* 鼠标悬停时颜色变深 */
+        }
+
+        .blue-button:disabled {
+            background-color: #94a3b8;
+            /* 禁用时颜色变灰 */
+            cursor: not-allowed;
+            /* 禁用时鼠标指针样式 */
+        }
+
+        /* 答题卡弹窗样式 */
+        .answer-sheet-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1004;
+            justify-content: center;
+            align-items: center;
+        
+        }
+
+        .answer-sheet-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 80%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            position: relative; /* 添加相对定位 */
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+        }
+
+            
+        .answer-sheet-items {
+            display: flex; /* 使题号横向排列 */
+            gap: 10px; /* 题号之间的间距 */
+            margin-bottom: 20px; /* 与交卷按钮的间距 */
+            flex-wrap: wrap;
+        }
+        .answer-sheet-item {
+            padding: 8px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        
+        }
+
+        .answer-sheet-item.selected {
+            color: #3b82f6;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- iOS 状态栏 -->
+    <div class="ios-status-bar">
+        <div class="ios-status-bar-left">9:41</div>
+        <div class="ios-status-bar-right">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <div class="dynamic-island-dot"></div>
+        <span>正在学习中...</span>
+    </div>
+
+    <!-- 微信状态栏 -->
+    <div class="wx-status-bar">
+        <div class="wx-nav-bar">
+            <!-- 添加返回按钮 -->
+            <button class="absolute left-4 text-black text-xl" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="wx-nav-bar-title">阅读练习</div>
+        </div>
+    </div>
+
+    <!-- 胶囊按钮 -->
+    <div class="wx-capsule">
+        <div class="wx-capsule-button">
+            <i class="fas fa-minus text-black text-sm"></i>
+        </div>
+        <div class="wx-capsule-divider"></div>
+        <div class="wx-capsule-button">
+            <i class="fas fa-times text-black text-sm"></i>
+        </div>
+    </div>
+
+    <!-- 答题进度和答题卡按钮 -->
+    <!-- 修改为固定定位，调整 top 值 -->
+    <div class="pt-2 pb-2 pl-4 pr-4 flex justify-between items-center fixed top-[89px] left-0 right-0 bg-white shadow-md">
+        <div class="flex-grow pr-4">
+            <p class="text-sm mb-1">2022级高三校际联合考试</p>
+            <div class="bg-gray-200 rounded-full h-1 w-full">
+                <div class="bg-blue-600 h-1 rounded-full" id="progress-bar" style="width: 0%;"></div>
+                <!-- 初始进度为 0% -->
+            </div>
+        </div>
+        <!-- 缩小答题卡按钮字体 -->
+        <button id="answer-sheet-button" class="bg-blue-500 text-white p-2 rounded-md text-xs">答题卡(0/5)</button>
+    </div>
+
+    <!-- 题目区域 -->
+    <div class="p-4 pt-40 scrollable-container">
+        <div class="mb-8">
+            <p>わたしの近所のスーパーには、すてきな従業員がいる。彼は、駐車場で車を案内する係員なのだが、足が少し悪いらしく、片足を引きずる（拖着）ように移動している。それでも元気に働いている。いつも明るい笑顔だ。車の中の客にも、歩いている客にも、熱心にあいさつしてくれる。わたしの友人は、そのスーパーのレジ係をしている。彼女と喫茶店で話をしている時、駐車場の案内係のことを聞いた。「駐車場にいい人がいる」と言えば、すぐに分かると思った。しかし、彼女は、「誰のこと？」と不思議そうに答えた。少し説明したが、結局彼女に分かってもらえなかった。意外だった。そして心配になった。あの駐車場案内係の仕事が上司や同僚に理解されていないのではないか。彼は誰からも褒められず、自分のすばらしさを知ることなく、退職するのではないか。それはとても残念なことだ。しかし、その心配は要らなかったようだ。その後、友人は私に教えてくれた。店は、あの駐車場案内係に特別なボーナスと旅行をプレゼントしたそうだ。わたしの友人も本当は彼のことをよく知っていた。ただ、足が悪いとは思っていなかった。彼がプレゼントをもらう時、大勢の従業員の前で緊張して歩く姿を見て、初めて気づいたそうだ。私は、喫茶店で「いい人」と言う前に「足が悪い」と話していたらしい。</p>
+        </div>
+        <!-- 问题1 -->
+        <div class="question mb-4" id="question-26">
+            <p class="text-lg font-bold">26：文中に「すてきな従業員」とあるが、その理由ではないのはどれか。</p>
+            <div class="flex flex-col space-y-2">
+                <div>
+                    <input type="radio" id="q26a" name="q26" value="A">
+                    <label for="q26a">よくお客さんに褒められたから</label>
+                </div>
+                <div>
+                    <input type="radio" id="q26b" name="q26" value="B">
+                    <label for="q26b">熱心に駐車場で車を案内するから</label>
+                </div>
+                <div>
+                    <input type="radio" id="q26c" name="q26" value="C">
+                    <label for="q26c">足が悪くても、元気に働いているから</label>
+                </div>
+                <div>
+                    <input type="radio" id="q26d" name="q26" value="D">
+                    <label for="q26d">いつも笑顔でお客さんにあいさつするから</label>
+                </div>
+            </div>
+        </div>
+        <!-- 问题2 -->
+        <div class="question mb-4" id="question-27" style="display: none;">
+            <p class="text-lg font-bold">27：文中に「心配になった」とあるが、心配になったのは何か。</p>
+            <div class="flex flex-col space-y-2">
+                <div>
+                    <input type="radio" id="q27a" name="q27" value="A">
+                    <label for="q27a">駐車場の仕事が大変なこと</label>
+                </div>
+                <div>
+                    <input type="radio" id="q27b" name="q27" value="B">
+                    <label for="q27b">友人が職場のことをよく知らないこと</label>
+                </div>
+                <div>
+                    <input type="radio" id="q27c" name="q27" value="C">
+                    <label for="q27c">駐車場案内係が正しく評価されていないこと</label>
+                </div>
+                <div>
+                    <input type="radio" id="q27d" name="q27" value="D">
+                    <label for="q27d">誰にも褒められず、駐車場案内係は辞職すること</label>
+                </div>
+            </div>
+        </div>
+        <!-- 问题3 -->
+        <div class="question mb-4" id="question-28" style="display: none;">
+            <p class="text-lg font-bold">28：喫茶店で、友人はなぜ駐車場案内係のことが分らなかったのか。</p>
+            <div class="flex flex-col space-y-2">
+                <div>
+                    <input type="radio" id="q28a" name="q28" value="A">
+                    <label for="q28a">友人が彼に会ったことがなかったから</label>
+                </div>
+                <div>
+                    <input type="radio" id="q28b" name="q28" value="B">
+                    <label for="q28b">彼が足が悪いことを知らなかったから</label>
+                </div>
+                <div>
+                    <input type="radio" id="q28c" name="q28" value="C">
+                    <label for="q28c">彼がいい人だと思っていなかったから</label>
+                </div>
+                <div>
+                    <input type="radio" id="q28d" name="q28" value="D">
+                    <label for="q28d">友人が入社する前に、彼は退職したから</label>
+                </div>
+            </div>
+        </div>
+        <!-- 问题4 -->
+        <div class="question mb-4" id="question-29" style="display: none;">
+            <p class="text-lg font-bold">29：文中に「初めて気づいた」とあるが、誰がどんなことに気づいたか。</p>
+            <div class="flex flex-col space-y-2">
+                <div>
+                    <input type="radio" id="q29a" name="q29" value="A">
+                    <label for="q29a">筆者が駐車場案内係の足が悪いことに気づいた。</label>
+                </div>
+                <div>
+                    <input type="radio" id="q29b" name="q29" value="B">
+                    <label for="q29b">友人が駐車場案内係の足が悪いことに気づいた。</label>
+                </div>
+                <div>
+                    <input type="radio" id="q29c" name="q29" value="C">
+                    <label for="q29c">筆者が駐車場案内係のすばらしさに気づいた。</label>
+                </div>
+                <div>
+                    <input type="radio" id="q29d" name="q29" value="D">
+                    <label for="q29d">友人が駐車場案内係のすばらしさに気づいた。</label>
+                </div>
+            </div>
+        </div>
+        <!-- 问题5 -->
+        <div class="question mb-4" id="question-30" style="display: none;">
+            <p class="text-lg font-bold">30：文章の内容に合っているのはどれか。</p>
+            <div class="flex flex-col space-y-2">
+                <div>
+                    <input type="radio" id="q30a" name="q30" value="A">
+                    <label for="q30a">筆者の友達も駐車場で働いている。</label>
+                </div>
+                <div>
+                    <input type="radio" id="q30b" name="q30" value="B">
+                    <label for="q30b">筆者は駐車場案内係に旅行をプレゼントした。</label>
+                </div>
+                <div>
+                    <input type="radio" id="q30c" name="q30" value="C">
+                    <label for="q30c">駐車場案内係は、足が悪いが、真面目に働く人だ。</label>
+                </div>
+                <div>
+                    <input type="radio" id="q30d" name="q30" value="D">
+                    <label for="q30d">筆者が駐車場案内係のことを言ったら友人はすぐ分かった。</label>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between">
+            <button id="prev-question" class="blue-button" disabled>
+                <i class="fas fa-arrow-left text-xl"></i>
+                <div class="text-xs ml-1">上一题</div>
+            </button>
+            <button id="next-question" class="blue-button">
+                <div class="text-xs mr-1">下一题</div>
+                <i class="fas fa-arrow-right text-xl"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 底部按钮 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-4">
+        <button class="text-gray-400">
+            <i class="fas fa-arrow-left text-xl"></i>
+            <div class="text-xs">上一篇</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-arrow-right text-xl"></i>
+            <div class="text-xs">下一篇</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-heart text-xl"></i>
+            <div class="text-xs mt-1">收藏</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-question-circle text-xl"></i>
+            <div class="text-xs mt-1">解答</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-comment-dots text-xl"></i>  <!-- 修改为更合适的反馈图标 -->
+            <div class="text-xs mt-1">反馈</div>
+        </button>
+    </div>
+
+    <!-- 答题卡弹窗 -->
+    <div class="answer-sheet-modal" id="answer-sheet-modal">
+        <div class="answer-sheet-content">
+            <div class="close-modal" onclick="document.getElementById('answer-sheet-modal').style.display='none'">
+                <i class="fas fa-times"></i>
+            </div>
+            <!-- 新增答题卡标题 -->
+            <h3 class="text-lg font-bold self-start mb-4">答题卡</h3>
+            <div class="answer-sheet-items">
+                <div class="answer-sheet-item" data-question="26">26</div>
+                <div class="answer-sheet-item" data-question="27">27</div>
+                <div class="answer-sheet-item" data-question="28">28</div>
+                <div class="answer-sheet-item" data-question="29">29</div>
+                <div class="answer-sheet-item" data-question="30">30</div>
+            </div>
+            <!-- 交卷按钮 -->
+            <button class="blue-button w-full" id="submit-button">交卷</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = document.querySelectorAll('.question');
+        const prevButton = document.getElementById('prev-question');
+        const nextButton = document.getElementById('next-question');
+        const progressBar = document.getElementById('progress-bar');
+        const answerSheetButton = document.getElementById('answer-sheet-button');
+        const answerSheetModal = document.getElementById('answer-sheet-modal');
+        const answerSheetItems = document.querySelectorAll('.answer-sheet-item');
+        let currentQuestionIndex = 0;
+        const totalQuestions = questions.length;
+        const userAnswers = {};
+
+        function showQuestion(index) {
+            questions.forEach((question, i) => {
+                if (i === index) {
+                    question.style.display = 'block';
+                } else {
+                    question.style.display = 'none';
+                }
+            });
+            prevButton.disabled = index === 0;
+            nextButton.disabled = index === totalQuestions - 1;
+            highlightAnswerSheetItem(index);
+        }
+
+        function highlightAnswerSheetItem(index) {
+            answerSheetItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const progressPercentage = (answeredCount / totalQuestions) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            answerSheetButton.textContent = `答题卡(${answeredCount}/${totalQuestions})`;
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < totalQuestions - 1) {
+                const currentQuestion = questions[currentQuestionIndex];
+                const radios = currentQuestion.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => {
+                    if (radio.checked) {
+                        const questionId = currentQuestion.id.split('-')[1];
+                        userAnswers[questionId] = radio.value;
+                    }
+                });
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+                updateProgress();
+            }
+        });
+
+        answerSheetButton.addEventListener('click', () => {
+            answerSheetModal.style.display = 'flex';
+        });
+
+        answerSheetModal.addEventListener('click', (e) => {
+            if (e.target === answerSheetModal) {
+                answerSheetModal.style.display = 'none';
+            }
+        });
+
+        answerSheetItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentQuestionIndex = index;
+                showQuestion(currentQuestionIndex);
+                answerSheetModal.style.display = 'none';
+            });
+        });
+
+        showQuestion(currentQuestionIndex);
+        const submitButton = document.getElementById('submit-button');
+    
+        submitButton.addEventListener('click', () => {
+            // 这里可以添加提交答案的逻辑
+            console.log('用户答案:', userAnswers);
+            answerSheetModal.style.display = 'none';
+            // 可以添加更多逻辑，如显示结果、跳转到结果页面等
+        });
+    </script>
+    
+</body>
+
+</html>

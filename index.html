@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日语学习助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .status-bar {
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            -ms-overflow-style: none;  /* IE 和 Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-8">
+    <ul class="mb-8">
+        <li>1、切换上下篇与答题卡之间的逻辑需要如何处理</li>
+        <li>2、填空短文无法识别到双下划线，需要手动处理。_单词_</li>
+    </ul>
+    <div class="flex flex-wrap gap-8 justify-center">
+        <!-- 答疑页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/qa.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        
+        <!-- 做题页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/practice.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        <!-- 填空练习页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/fill_practice.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        <!-- 听力练习页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/listening_practice.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        <!-- 阅读练习页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/reading_practice.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        <!-- 作文练习页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/writing_practice.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        
+        <!-- 我的页面 -->
+        <div class="phone-frame">
+            <iframe src="pages/profile.html?v=1" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+    
+</body>
+</html>
