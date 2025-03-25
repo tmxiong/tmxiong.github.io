@@ -240,6 +240,13 @@
                 题目：我的梦想
             </div>
             <textarea placeholder="在这里输入你的作文内容..."></textarea>
+            <!-- 添加拍照识别按钮 -->
+            <div class="flex justify-end">
+                <button class="text-sm mt-1 right-4 flex items-center bg-blue-100 text-blue-600 px-3 py-1 rounded-md">
+                    <i class="fas fa-camera mr-1 text-blue-600"></i>
+                    拍照识别
+                </button>
+            </div>
         </div>
     </div>
 
@@ -364,6 +371,12 @@
                 }).join('')}
             </div>
             <textarea placeholder="在这里输入你的作文内容..."></textarea>
+                <div class="flex justify-end">
+                    <button class="text-sm mt-1 right-4 flex items-center bg-blue-100 text-blue-600 px-3 py-1 rounded-md">
+                        <i class="fas fa-camera mr-1 text-blue-600"></i>
+                        拍照识别
+                    </button>
+                </div>
             ${partIndex === 0 ? `<div class="mt-4">
                 <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="switchPart(1)">
                     下一节
