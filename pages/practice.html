@@ -249,59 +249,103 @@
     </div>
 
     <!-- 中部按钮 -->
-    <div class="px-4 space-y-4 mt-4">
-        <button class="flex justify-between items-center bg-white p-4 rounded-lg w-full ">
+    <div class="bg-white p-4 rounded-xl shadow-sm m-4">
+        <button class="flex justify-between items-center bg-white p-3 rounded-lg w-full ">
             <div class="flex items-center">
                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
                 <span>已完成题目</span>
             </div>
-            <span>50题</span>
+            <span>
+                50题
+                <i class="fas fa-chevron-right text-gray-400 ml-1"></i>
+            </span>
         </button>
-        <button class="flex justify-between items-center bg-white p-4 rounded-lg w-full ">
+        <button class="flex justify-between items-center bg-white p-3 rounded-lg w-full ">
             <div class="flex items-center">
                 <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
                 <span>回顾错题</span>
             </div>
-            <span>20题</span>
+            <span>
+                20题
+                <i class="fas fa-chevron-right text-gray-400 ml-1"></i>
+            </span>
         </button>
-        <button class="flex justify-between items-center bg-white p-4 rounded-lg w-full ">
+        <button class="flex justify-between items-center bg-white p-3 rounded-lg w-full ">
             <div class="flex items-center">
                 <i class="fas fa-history text-blue-500 mr-2"></i>
                 <span>恢复上次练习</span>
             </div>
-            <span>30题</span>
+            <span>
+                30题
+                <i class="fas fa-chevron-right text-gray-400 ml-1"></i>
+            </span>
         </button>
     </div>
 
     <!-- 下部按钮 -->
-    <div class="bg-white p-4 rounded-lg shadow-sm m-4"> <!-- 新增的卡片容器 -->
-        <div class="grid grid-cols-2 gap-0">
-            <button class="flex flex-col items-center bg-white p-4 rounded-none border-r border-b border-gray-200 hover:bg-gray-100 transition-colors shadow-none">
-                <i class="fas fa-headphones text-blue-500 mb-2 text-xl"></i>
-                <span>听力强化训练</span>
-            </button>
-            <button class="flex flex-col items-center bg-white p-4 rounded-none border-b border-gray-200 hover:bg-gray-100 transition-colors shadow-none">
-                <i class="fas fa-book-open text-green-500 mb-2 text-xl"></i>
-                <span>阅读强化训练</span>
-            </button>
-            <button class="flex flex-col items-center bg-white p-4 rounded-none border-r border-b border-gray-200 hover:bg-gray-100 transition-colors shadow-none">
-                <i class="fas fa-puzzle-piece text-yellow-500 mb-2 text-xl"></i>
-                <span>完型强化训练</span>
-            </button>
-            <button class="flex flex-col items-center bg-white p-4 rounded-none border-b border-gray-200 hover:bg-gray-100 transition-colors shadow-none">
-                <i class="fas fa-chart-bar text-purple-500 mb-2 text-xl"></i>
-                <span>在线联考测试</span>
-            </button>
-            <button class="flex flex-col items-center bg-white p-4 rounded-none border-r border-gray-200 hover:bg-gray-100 transition-colors shadow-none">
-                <i class="fas fa-font text-orange-500 mb-2 text-xl"></i>
-                <span>词汇量测试</span>
-            </button>
-            <button class="flex flex-col items-center bg-white p-4 rounded-none hover:bg-gray-100 transition-colors shadow-none">
-                <i class="fas fa-file-alt text-pink-500 mb-2 text-xl"></i>
-                <span>作文例文参考</span>
-            </button>
-        </div>
+    <div class="m-4 space-y-4">
+        <button class="flex justify-between items-center bg-white p-3 rounded-xl hover:bg-gray-100 transition-colors shadow-sm w-full">
+            <div class="flex items-center">
+                <i class="fas fa-headphones text-blue-500 text-xl mr-3"></i>
+                <div class="flex flex-col align-left">
+                    <span class="text-sm font-medium">听力强化训练</span>
+                    <span class="text-xs text-gray-500">提升听力技巧</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </button>
+        <button class="flex justify-between items-center bg-white p-3 rounded-xl hover:bg-gray-100 transition-colors shadow-sm w-full">
+            <div class="flex items-center">
+                <i class="fas fa-book-open text-green-500 text-xl mr-3"></i>
+                <div class="flex flex-col align-left">
+                    <span class="text-sm font-medium">阅读强化训练</span>
+                    <span class="text-xs text-gray-500">提高阅读速度</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </button>
+        <button class="flex justify-between items-center bg-white p-3 rounded-xl transition-colors shadow-sm w-full">
+            <div class="flex items-center">
+                <i class="fas fa-puzzle-piece text-yellow-500 text-xl mr-3"></i>
+                <div class="flex flex-col align-left">
+                    <span class="text-sm font-medium">完型强化训练</span>
+                    <span class="text-xs text-gray-500">掌握填空技巧</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </button>
+        <button class="flex justify-between items-center bg-white p-3 rounded-xl transition-colors shadow-sm w-full">
+            <div class="flex items-center">
+                <i class="fas fa-chart-bar text-purple-500 text-xl mr-3"></i>
+                <div class="flex flex-col align-left">
+                    <span class="text-sm font-medium">在线联考测试</span>
+                    <span class="text-xs text-gray-500">模拟真实考试</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </button>
+        <button class="flex justify-between items-center bg-white p-3 rounded-xl transition-colors shadow-sm w-full">
+            <div class="flex items-center">
+                <i class="fas fa-font text-orange-500 text-xl mr-3"></i>
+                <div class="flex flex-col align-left">
+                    <span class="text-sm font-medium">词汇量测试</span>
+                    <span class="text-xs text-gray-500">评估词汇水平</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </button>
+        <button class="flex justify-between items-center bg-white p-3 rounded-xl transition-colors shadow-sm w-full">
+            <div class="flex items-center">
+                <i class="fas fa-file-alt text-pink-500 text-xl mr-3"></i>
+                <div class="flex flex-col align-left">
+                    <span class="text-sm font-medium">作文例文参考</span>
+                    <span class="text-xs text-gray-500">学习优秀范文</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </button>
     </div>
+
 
     <!-- 底部导航栏 -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-4">

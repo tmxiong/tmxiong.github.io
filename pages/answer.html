@@ -164,7 +164,7 @@
     <!-- 微信状态栏 -->
     <div class="wx-status-bar">
         <div class="wx-nav-bar">
-            <div class="wx-nav-bar-title">答疑</div>
+            <div class="wx-nav-bar-title">作文批改</div>
         </div>
     </div>
     
@@ -181,53 +181,49 @@
 
     <!-- 主要内容区域 -->
     <div class="main-content">
-        <!-- 移除原有的标签页切换按钮和内容区域 -->
-        
-        <!-- 新增4个长条按钮 -->
-        <div class="p-4 space-y-4">
-            <!-- 作文批改按钮 -->
-            <button class="w-full h-[120px] bg-white/80 rounded-2xl shadow-sm flex items-center px-6 transform transition relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/edit--v1.png')] bg-no-repeat bg-right bg-contain"></div>
-                <i class="fas fa-edit text-4xl text-purple-600 mr-4 z-10"></i>
-                <div class="z-10 text-left">
-                    <span class="text-xl font-bold text-gray-800">作文批改</span>
-                    <span class="text-sm text-gray-600 block mt-1">AI智能批改，提升写作水平</span>
-                </div>
-            </button>
-            
-            <!-- 拍题解答按钮 -->
-            <button class="w-full h-[120px] bg-white/80 rounded-2xl shadow-sm flex items-center px-6 transform transition relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/camera--v1.png')] bg-no-repeat bg-right bg-contain"></div>
-                <i class="fas fa-camera text-4xl text-blue-600 mr-4 z-10"></i>
-                <div class="z-10 text-left">
-                    <span class="text-xl font-bold text-gray-800">拍题解答</span>
-                    <span class="text-sm text-gray-600 block mt-1">AI智能解答，秒出解析</span>
-                </div>
-            </button>
-            
-            <!-- 资料下载按钮 -->
-            <button class="w-full h-[120px] bg-white/80 rounded-2xl shadow-sm flex items-center px-6 transform transition relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/download--v1.png')] bg-no-repeat bg-right bg-contain"></div>
-                <i class="fas fa-file-download text-4xl text-green-600 mr-4 z-10"></i>
-                <div class="z-10 text-left">
-                    <span class="text-xl font-bold text-gray-800">资料下载</span>
-                    <span class="text-sm text-gray-600 block mt-1">海量学习资料一键下载</span>
-                </div>
-            </button>
-            
-            <!-- 图书推荐按钮 -->
-            <button class="w-full h-[120px] bg-white/80 rounded-2xl shadow-sm flex items-center px-6 transform transition relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/book--v1.png')] bg-no-repeat bg-right bg-contain"></div>
-                <i class="fas fa-book text-4xl text-orange-600 mr-4 z-10"></i>
-                <div class="z-10 text-left">
-                    <span class="text-xl font-bold text-gray-800">图书推荐</span>
-                    <span class="text-sm text-gray-600 block mt-1">精选好书，助力学习</span>
-                </div>
-            </button>
-        </div>
-    </div>
+        <!-- 顶部标签页 -->
+        <!-- <div class="bg-white shadow-sm">
+            <div class="flex justify-around p-4">
+                <button class="px-4 py-2 text-blue-600 border-b-2 border-blue-600" onclick="showTab('question-answer')">试题解答</button>
+                <button class="px-4 py-2 text-gray-600" onclick="showTab('essay-correction')">作文批改</button>
+                <button class="px-4 py-2 text-gray-600" onclick="showTab('learning-qa')">学习答疑</button>
+            </div>
+        </div> -->
 
-    
+        <!-- 主要内容区 -->
+        <div class="p-4">
+            <!-- 试题解答内容 -->
+            <div id="question-answer" class="bg-white rounded-2xl p-4 shadow-sm relative">
+                <textarea class="w-full h-32 rounded-xl bg-gray-50 p-4 resize-none" placeholder="输入你的试题问题..."></textarea>
+                <div class="flex justify-end">
+                    <button class="text-sm mt-1 right-4 flex items-center bg-blue-100 text-blue-600 px-3 py-1 rounded-md">
+                        <i class="fas fa-camera mr-1 text-blue-600"></i>
+                        拍照识别
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <button class="text-base bg-blue-600 text-white px-6 py-2 rounded-md w-full">
+                        提交
+                    </button>
+                </div>
+            </div>
+            <!-- 作文批改内容 -->
+            <div id="essay-correction" class="bg-white rounded-2xl p-4 shadow-sm relative hidden">
+                <textarea class="w-full h-32 rounded-xl bg-gray-50 p-4 resize-none" placeholder="输入你的作文内容..."></textarea>
+                <div class="flex justify-end">
+                    <button class="text-sm mt-1 right-4 flex items-center bg-blue-100 text-blue-600 px-3 py-1 rounded-md">
+                        <i class="fas fa-camera mr-1 text-blue-600"></i>
+                        拍照识别
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <button class="text-base bg-blue-600 text-white px-6 py-2 rounded-md w-full">
+                        提交
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- 底部导航栏 -->
         <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-4">
             <button class="text-blue-600">
