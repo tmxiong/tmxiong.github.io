@@ -1,0 +1,52 @@
+:root {
+    /* 主色调 - 清新绿色 */
+    --primary-dark: #5BA661;
+    --primary-color: #7AC380;
+    --primary-light: #c7f0ca;
+    --primary-lightest: #f9fff9;
+    
+    /* 次色调 - 粉白色 */
+    --secondary-color: #FBF2E3;
+    --secondary-light: #fff9f0;
+    --secondary-dark: #f0e7d8;
+    
+    /* 辅助色调 */
+    --accent-cyan: #58c0be;
+    --accent-cyan-light: #58c0be33;
+    --accent-green: #58c39e;
+    --accent-green-light: #58c39e33;
+    --accent-blue: #437ae3;
+    --accent-blue-light: #5ec26933;
+    --accent-yellow : #d5ab57;
+    --accent-yellow-light : #d5ab5733;
+    --accent-pink: #e86ed0;
+    --accent-pink-light: #e86ed033;
+    --accent-purple: #9c59ef;
+    --accent-purple-light: #9c59ef33;
+    
+    /* 文本颜色 */
+    --text-primary: #333333;  /* 主要文本 */
+    --text-secondary: #666666; /* 次要文本 */
+    --text-light: #999999;    /* 浅色文本 */
+    --text-white: #ffffff;    /* 白色文本 */
+    
+    /* 边框颜色 */
+    --border-light: #e5e5e5;
+    --border-medium: #d0d0d0;
+    
+    /* 背景颜色 */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f8f8;
+    --bg-tertiary: #f0f0f0;
+    
+    /* 状态颜色 */
+    --success: #48bb78;
+    --warning: #ed8936;
+    --error: #f56565;
+    --info: #4299e1;
+    
+    /* 阴影 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
+  }

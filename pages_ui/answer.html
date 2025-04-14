@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>答疑详情</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#FBB957',
+                light: '#fcc679',
+                dark: '#e9a43c',
+              },
+              secondary: {
+                DEFAULT: '#FBF2E3',
+                light: '#fff9f0',
+                dark: '#f0e7d8',
+              },
+              accent: {
+                green: '#b9d7c0',
+                blue: '#c6dde8',
+                pink: '#f7d6e0',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body, html  {
+            -ms-overflow-style: none;  /* IE 和 Edge */
+            scrollbar-width: none;  /* Firefox */
+            background-color: var(--secondary-light);
+        }
+        
+        /* iOS 状态栏 */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: var(--bg-primary);
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ios-status-bar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .ios-status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 灵动岛 */
+        .dynamic-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1003;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .dynamic-island-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        /* 微信状态栏样式 */
+        .wx-status-bar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            height: 45px; 
+            background: var(--bg-primary);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .wx-nav-bar {
+            height: 45px; 
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-nav-bar-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .wx-capsule {
+            position: fixed;
+            right: 7px;
+            top: 48px; 
+            height: 28px;
+            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+        }
+
+        .wx-capsule-button {
+            height: 28px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-capsule-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--border-medium);
+            margin: 0 2px;
+        }
+
+        .main-content {
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+        
+        /* 按钮样式 */
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-white);
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* 回答卡片样式 */
+        .answer-card {
+            background-color: var(--bg-primary);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+        
+        .answer-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .answer-card-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+            background-color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-white);
+            font-weight: bold;
+        }
+        
+        .answer-card-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* 输入框样式 */
+        .input-area {
+            background-color: var(--bg-primary);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 16px;
+        }
+        
+        textarea {
+            width: 100%;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px;
+            resize: none;
+            background-color: var(--secondary-light);
+            color: var(--text-primary);
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS 状态栏 -->
+    <div class="ios-status-bar">
+        <div class="ios-status-bar-left">9:41</div>
+        <div class="ios-status-bar-right">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <div class="dynamic-island-dot"></div>
+        <span>正在学习中...</span>
+    </div>
+
+    <!-- 微信状态栏 -->
+    <div class="wx-status-bar">
+        <div class="wx-nav-bar">
+            <div class="wx-nav-bar-title">答疑详情</div>
+        </div>
+    </div>
+    
+    <!-- 胶囊按钮 -->
+    <div class="wx-capsule">
+        <div class="wx-capsule-button">
+            <i class="fas fa-minus text-black text-sm"></i>
+        </div>
+        <div class="wx-capsule-divider"></div>
+        <div class="wx-capsule-button">
+            <i class="fas fa-times text-black text-sm"></i>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="main-content">
+        <div class="p-4">
+            <!-- 问题卡片 -->
+            <div class="answer-card bg-secondary-light">
+                <div class="answer-card-header">
+                    <div class="answer-card-avatar bg-primary text-white">我</div>
+                    <div>
+                        <div class="font-medium text-sm text-primary-dark">我的提问</div>
+                        <div class="text-xs text-gray-500">今天 14:30</div>
+                    </div>
+                </div>
+                <div class="answer-card-content">
+                    <p>日语中「は」和「が」的区别是什么？什么情况下应该使用「は」，什么情况下应该使用「が」？</p>
+                </div>
+            </div>
+            
+            <!-- 回答卡片 -->
+            <div class="answer-card">
+                <div class="answer-card-header">
+                    <div class="answer-card-avatar bg-accent-green">AI</div>
+                    <div>
+                        <div class="font-medium text-sm">AI助手</div>
+                        <div class="text-xs text-gray-500">今天 14:31</div>
+                    </div>
+                </div>
+                <div class="answer-card-content">
+                    <p class="mb-3">「は」和「が」都是日语中的助词，但它们的用法有明显区别：</p>
+                    
+                    <p class="font-medium mb-2">「は」的用法：</p>
+                    <ul class="list-disc pl-5 mb-3">
+                        <li>表示主题，引出谈论的对象</li>
+                        <li>对比两个事物时使用</li>
+                        <li>已知信息，上下文中已经提到过的内容</li>
+                    </ul>
+                    
+                    <p class="font-medium mb-2">「が」的用法：</p>
+                    <ul class="list-disc pl-5 mb-3">
+                        <li>表示主语，强调动作的执行者</li>
+                        <li>引入新信息</li>
+                        <li>用于特指某人或某物</li>
+                        <li>表达瞬间状态或变化</li>
+                    </ul>
+                    
+                    <p class="mb-3">例句对比：</p>
+                    <p>私<span class="text-primary-dark font-bold">は</span>学生です。(我是学生。) - 表示"我"作为主题</p>
+                    <p>誰<span class="text-primary-dark font-bold">が</span>学生ですか。(谁是学生？) - 询问"谁"是学生</p>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <textarea class="mb-3" rows="4" placeholder="输入你的问题或回复..."></textarea>
+                <div class="flex justify-between items-center">
+                    <button class="text-gray-500">
+                        <i class="fas fa-image text-xl"></i>
+                    </button>
+                    <button class="btn-primary">
+                        发送
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 相关问题推荐 -->
+            <div class="mt-6">
+                <h3 class="text-sm font-medium mb-3 text-gray-600">相关问题推荐</h3>
+                <div class="space-y-2">
+                    <div class="p-3 bg-white rounded-lg border border-gray-100 text-sm">
+                        日语中的「を」和「に」有什么区别？
+                    </div>
+                    <div class="p-3 bg-white rounded-lg border border-gray-100 text-sm">
+                        如何区分日语中的「て」形和「た」形？
+                    </div>
+                    <div class="p-3 bg-white rounded-lg border border-gray-100 text-sm">
+                        日语敬语的使用场合和注意事项
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-4">
+        <button class="text-primary">
+            <i class="fas fa-question-circle text-xl"></i>
+            <div class="text-xs mt-1">答疑</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-edit text-xl"></i>
+            <div class="text-xs mt-1">做题</div>
+        </button>
+        <button class="text-gray-400">
+            <i class="fas fa-user text-xl"></i>
+            <div class="text-xs mt-1">我的</div>
+        </button>
+    </div>
+</body>
+</html>

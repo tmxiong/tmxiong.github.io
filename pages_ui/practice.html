@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>做题</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar, html::-webkit-scrollbar, .scrollable-container::-webkit-scrollbar {
+            display: none;
+        }
+        body, html {
+            -ms-overflow-style: none;  /* IE 和 Edge */
+            scrollbar-width: none;  /* Firefox */
+            /* background-color: white!important; */
+        }
+        /* 确保容器可滚动 */
+        .scrollable-container {
+            scrollbar-width: none;
+            overflow-y: auto;
+            max-height: calc(100vh - 90px); /* 根据实际情况调整最大高度 */
+        }
+        /* iOS 状态栏 - 修改为白底黑字 */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: #ffffff;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ios-status-bar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .ios-status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 灵动岛 */
+        .dynamic-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1003;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .dynamic-island-dot {
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+        }
+
+        /* 微信状态栏样式 */
+        .wx-status-bar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            /* 修改高度为 45px */
+            height: 45px; 
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); 添加底部边框 */
+        }
+
+        .wx-status-bar-top {
+            /* 修改高度为 0，因为不需要这个顶部区域了 */
+            height: 0; 
+            width: 100%;
+            background: #ffffff;
+        }
+
+        .wx-nav-bar {
+            /* 修改高度为 45px */
+            height: 45px; 
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-nav-bar-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .wx-capsule {
+            position: fixed;
+            right: 7px;
+            /* 调整 top 为 44px + 45px */
+            top: 48px; 
+            height: 28px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+        }
+
+        .wx-capsule-button {
+            height: 28px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-capsule-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 2px;
+        }
+
+        .main-content {
+            padding-top: 120px;
+        }
+        /* 滚动通知栏样式 */
+        .scroll-notice {
+            height: 70px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 10px; 
+            margin-top: 100px;
+            background-color: var(--primary-lightest);
+            border: 1px solid var(--primary-light);
+            border-radius: 10px;;
+        }
+        .scroll-notice-icon {
+            margin-right: 5px;
+            color: #333;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .scroll-notice-more {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            bottom: 4px;
+        }
+        @keyframes scroll-up {
+            0%, 16.67% {
+                transform: translateY(0);
+            }
+            33.33%, 50% {
+                transform: translateY(-30px);
+            }
+            66.67%, 83.33% {
+                transform: translateY(-60px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        /* 调整按钮样式 */
+        button {
+            transition: all 0.3s ease; 
+        }
+        
+        
+        
+    
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- iOS 状态栏 -->
+    <div class="ios-status-bar">
+        <div class="ios-status-bar-left">9:41</div>
+        <div class="ios-status-bar-right">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <div class="dynamic-island-dot"></div>
+        <span>正在做题中...</span>
+    </div>
+
+    <!-- 微信状态栏 -->
+    <div class="wx-status-bar">
+        <div class="wx-nav-bar">
+            <div class="wx-nav-bar-title">做题</div>
+        </div>
+    </div>
+
+    <!-- 胶囊按钮 -->
+    <div class="wx-capsule">
+        <div class="wx-capsule-button">
+            <i class="fas fa-minus text-black text-sm"></i>
+        </div>
+        <div class="wx-capsule-divider"></div>
+        <div class="wx-capsule-button">
+            <i class="fas fa-times text-black text-sm"></i>
+        </div>
+    </div>
+
+    <!-- 导航栏下面的滚动通知栏 -->
+    <div class="scroll-notice mx-4">
+        <!-- 固定的通知图标 -->
+        <div class="flex flex-col items-center">
+            <img src="./imgs/icon_notice.png" style="width: 60px;height: auto"/>
+            <div class="text-xs text-gray-600 px-1 py-0.5 mt-0.5" style="background-color: var(--primary-light);border-radius: 10px;">
+                查看更多
+            </div>
+        </div>
+        <!-- 滚动的通知文本 -->
+        <ul class="list-none p-0 m-0 text-left ml-2"> 
+            <li class="flex items-center" style="height:23px">
+                <span class="text-sm" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 250px;">快来~ 14日更新了100套高考真题，祝你金榜题名!</span>
+                <img style="width: 15px;height:15px;" src="./imgs/icon_arrow_right.svg" alt="">
+            </li>
+            <li class="flex items-center" style="height:23px">
+                <span class="text-sm" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 250px;">快来~ 13日更新了100套知名专家出的高考模拟题，祝你金榜题名!</span>
+                <img style="width: 15px;height:15px;" src="./imgs/icon_arrow_right.svg" alt="">
+            </li>
+        </ul>
+        <img src="./imgs/icon_a" alt="">
+    </div>
+
+    <!-- 中部按钮 -->
+    <div class="p-4 rounded-xl mx-4 mt-4 pb-6" style="background: linear-gradient(#fef8f3,#fff2e8);">
+        <button class="flex justify-between items-center py-2 px-2 rounded-lg w-full ">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                <span class="text-sm">已完成题目</span>
+            </div>
+            <span class="text-xs text-gray-500">
+                50题
+                <i class="fas fa-chevron-right text-gray-400 ml-1 text-xs"></i>
+            </span>
+        </button>
+        <button class="flex justify-between items-center py-2 px-2 rounded-lg w-full ">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-triangle text-yellow-500 mr-2 "></i>
+                <span class="text-sm">回顾错题</span>
+            </div>
+            <span class="text-xs text-gray-500">
+                20题
+                <i class="fas fa-chevron-right text-gray-400 ml-1 text-xs"></i>
+            </span>
+        </button>
+        <button class="flex justify-between items-center py-2 px-2 rounded-lg w-full ">
+            <div class="flex items-center">
+                <i class="fas fa-history text-gray-800 mr-2"></i>
+                <span class="text-sm">恢复上次练习</span>
+            </div>
+            <span class="text-xs text-gray-500">
+                30题
+                <i class="fas fa-chevron-right text-gray-400 ml-1 text-xs"></i>
+            </span>
+        </button>
+    </div>
+
+    <!-- 下部按钮 -->
+    <div class="mx-4 -mt-4 rounded-xl bg-white shadow-sm p-4">
+        <div class="grid grid-cols-2 gap-4">
+            <button class="overflow-hidden relative flex flex-col justify-between bg-[var(--bg-secondary)] p-3 rounded-xl transition-colors shadow-sm w-full h-24">
+                <div class="flex flex-col align-left text-left z-1">
+                    <span class="text-sm font-medium">听力强化训练</span>
+                    <span class="text-xs text-gray-500 mt-1">提升听力技巧</span>
+                </div>
+                <div class="absolute right-2 bottom-2 rounded-xl z-0 p-2" style="width:50px;height:50px; background: var(--accent-cyan-light)">
+                    <img class="" style="width: 40px;height: auto" src="./imgs/icon_listening.svg"/>
+                </div>
+            </button>
+            <button class="relative flex flex-col justify-between bg-[var(--bg-secondary)] p-3 rounded-xl transition-colors w-full h-24">
+                <div class="flex flex-col text-left">
+                    <span class="text-sm font-medium">阅读强化训练</span>
+                    <span class="text-xs text-gray-500 mt-1">提高阅读速度</span>
+                </div>
+                <div class="absolute right-2 bottom-2 rounded-xl z-0 p-2" style="width:50px;height:50px; background: var(--accent-yellow-light)">
+                    <img class="" style="width: 40px;height: auto" src="./imgs/icon_reading.svg"/>
+                </div>
+            </button>
+            <button class="overflow-hidden relative flex flex-col justify-between bg-[var(--bg-secondary)] p-3 rounded-xl transition-colors shadow-sm w-full h-24">
+                <div class="flex flex-col text-left">
+                    <span class="text-sm font-medium">完型强化训练</span>
+                    <span class="text-xs text-gray-500 mt-1">掌握填空技巧</span>
+                </div>
+                <div class="absolute right-2 bottom-2 rounded-xl z-0 p-2" style="width:50px;height:50px; background: var(--accent-pink-light)">
+                    <img class="" style="width: 40px;height: auto" src="./imgs/icon_abc.svg"/>
+                </div>
+            </button>
+            <button class="overflow-hidden relative flex flex-col justify-between bg-[var(--bg-secondary)] p-3 rounded-xl transition-colors shadow-sm w-full h-24">
+                <div class="flex flex-col text-left">
+                    <span class="text-sm font-medium">在线联考测试</span>
+                    <span class="text-xs text-gray-500">模拟真实考试</span>
+                </div>
+                <div class="absolute right-2 bottom-2 rounded-xl z-0 p-2 opacity-80" style="width:50px;height:50px; background: var(--accent-green-light)">
+                    <img class="" style="width: 35px;height: auto" src="./imgs/icon_computer.svg"/>
+                </div>
+            </button>
+            <button class="overflow-hidden relative flex flex-col justify-between bg-[var(--bg-secondary)] p-3 rounded-xl transition-colors shadow-sm w-full h-24">
+                <div class="flex flex-col text-left">
+                    <span class="text-sm font-medium">词汇量测试</span>
+                    <span class="text-xs text-gray-500">评估词汇水平</span>
+                </div>
+                <div class="absolute right-2 bottom-2 rounded-xl z-0 p-2" style="width:50px;height:50px; background: var(--accent-yellow-light)">
+                    <img class="" style="width: 40px;height: auto" src="./imgs/icon_book.svg"/>
+                </div>
+            </button>
+            <button class="overflow-hidden relative flex flex-col justify-between bg-[var(--bg-secondary)] p-3 rounded-xl transition-colors shadow-sm w-full h-24">
+                <div class="flex flex-col text-left">
+                    <span class="text-sm font-medium">作文例文参考</span>
+                    <span class="text-xs text-gray-500">学习优秀范文</span>
+                </div>
+                <div class="absolute right-2 bottom-2 rounded-xl z-0 p-2 items-center justify-content" style="width:50px;height:50px; background: var(--accent-blue-light)">
+                    <img class="" style="width: 40px;height: auto" src="./imgs/icon_word.svg"/>
+                </div>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 border-t flex justify-around py-4" style="background-color: var(--bg-primary); border-color: var(--border-light);">
+        <button style="color: var(--text-light);">
+            <img src="./imgs/icon_help.svg"/>
+            <div class="text-xs mt-1">答疑</div>
+        </button>
+        <button style="color: var(--text-primary);">
+            <img src="./imgs/icon_repair_fill.svg"/>
+            <div class="text-xs mt-1">做题</div>
+        </button>
+        <button style="color: var(--text-light);">
+            <img src="./imgs/icon_people.svg"/>
+            <div class="text-xs mt-1">我的</div>
+        </button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>答疑</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* 隐藏滚动条 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body, html  {
+            -ms-overflow-style: none;  /* IE 和 Edge */
+            scrollbar-width: none;  /* Firefox */
+            color: var(--text-primary);
+            background: linear-gradient(-160deg, var(--primary-light) -10%, var(--bg-secondary) 28%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+        }
+        /* iOS 状态栏 - 修改为白底黑字 */
+        .ios-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            /* background: var(--bg-primary); */
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            background: transparent;
+        }
+
+        .ios-status-bar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .ios-status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 灵动岛 */
+        .dynamic-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1003;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .dynamic-island-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        /* 微信状态栏样式 */
+        .wx-status-bar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            right: 0;
+            /* 修改高度为 45px */
+            height: 45px; 
+            /* background: #ffffff; */
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); 添加底部边框 */
+        }
+
+        .wx-status-bar-top {
+            /* 修改高度为 0，因为不需要这个顶部区域了 */
+            height: 0; 
+            width: 100%;
+            /* background: #ffffff; */
+        }
+
+        .wx-nav-bar {
+            /* 修改高度为 45px */
+            height: 45px; 
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-nav-bar-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .wx-capsule {
+            position: fixed;
+            right: 7px;
+            /* 调整 top 为 44px + 45px */
+            top: 48px; 
+            height: 28px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+        }
+
+        .wx-capsule-button {
+            height: 28px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wx-capsule-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 2px;
+        }
+
+        .main-content {
+            padding-top: 90px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- iOS 状态栏 -->
+    <div class="ios-status-bar">
+        <div class="ios-status-bar-left">9:41</div>
+        <div class="ios-status-bar-right">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 灵动岛 -->
+    <div class="dynamic-island">
+        <div class="dynamic-island-dot"></div>
+        <span>正在学习中...</span>
+    </div>
+
+    <!-- 微信状态栏 -->
+    <div class="wx-status-bar">
+        <div class="wx-nav-bar">
+            <div class="wx-nav-bar-title">答疑</div>
+        </div>
+    </div>
+    
+    <!-- 胶囊按钮 -->
+    <div class="wx-capsule">
+        <div class="wx-capsule-button">
+            <i class="fas fa-minus text-black text-sm"></i>
+        </div>
+        <div class="wx-capsule-divider"></div>
+        <div class="wx-capsule-button">
+            <i class="fas fa-times text-black text-sm"></i>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="main-content">
+        <!-- 移除原有的标签页切换按钮和内容区域 -->
+        <div class="flex align-items justify-center relative">
+            <img src="./imgs/icon_status_plan.svg" alt="" style="height: 200px;width: auto;">
+            <span class="absolute bottom-0 text-xs">チャンスは二度と来ない</span>
+        </div>
+        <!-- 新增4个长条按钮 -->
+        <div class="p-4 space-y-4">
+            <!-- 作文批改按钮 -->
+            <button class="w-full h-[100px] bg-white/80 rounded-2xl shadow-sm flex items-center px-5 transform transition relative overflow-hidden" style="background-color: var(--bg-primary); box-shadow: var(--shadow-sm);">
+                <!-- <div class="absolute inset-0 opacity-10 bg-[url('./imgs/upload.svg')] bg-no-repeat bg-right bg-contain"></div> -->
+                <div class="flex items-center justify-center mr-4" style="height:calc(100% - 40px);width: 60px;background: #71c6ff44;border-radius: 10px;overflow: hidden;">
+                    <img src="./imgs/icon_article_check.webp" class="z-10" style="color: #5ea2f0;width: 40px;height: auto"></i>
+                </div>
+                <div class="z-10 text-left">
+                    <span class="text-l font-bold" style="color: var(--text-primary);">作文批改</span>
+                    <span class="text-sm block mt-1" style="color: var(--text-secondary);">AI智能批改，提升写作水平</span>
+                </div>
+            </button>
+            
+            <!-- 拍题解答按钮 -->
+            <button class="w-full h-[100px] bg-white/80 rounded-2xl shadow-sm flex items-center px-5 transform transition relative overflow-hidden" style="background-color: var(--bg-primary); box-shadow: var(--shadow-sm);">
+                <!-- <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/camera--v1.png')] bg-no-repeat bg-right bg-contain"></div> -->
+                <div class="flex items-center justify-center mr-4" style="height:calc(100% - 40px);width: 60px;background: #9c59ef33;border-radius: 10px;overflow: hidden;">
+                    <img src="./imgs/icon_photo_upload.webp" class="z-10" style="color: #5ea2f0;width: 40px;height: auto"></i>
+                </div>
+                <div class="z-10 text-left">
+                    <span class="text-l font-bold" style="color: var(--text-primary);">拍题解答</span>
+                    <span class="text-sm block mt-1" style="color: var(--text-secondary);">AI智能解答，秒出解析</span>
+                </div>
+            </button>
+            
+            <!-- 资料下载按钮 -->
+            <button class="w-full h-[100px] bg-white/80 rounded-2xl shadow-sm flex items-center px-6 transform transition relative overflow-hidden" style="background-color: var(--bg-primary); box-shadow: var(--shadow-sm);">
+                <!-- <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/download--v1.png')] bg-no-repeat bg-right bg-contain"></div> -->
+                <div class="flex items-center justify-center mr-4" style="height:calc(100% - 40px);width: 60px;background: #5ec26933;border-radius: 10px;overflow: hidden;">
+                    <img src="./imgs/icon_folder.png" class="z-10" style="color: #5ea2f0;width: 40px;height: auto"></i>
+                </div>
+                <div class="z-10 text-left">
+                    <span class="text-l font-bold" style="color: var(--text-primary);">资料下载</span>
+                    <span class="text-sm block mt-1" style="color: var(--text-secondary);">海量学习资料一键下载</span>
+                </div>
+            </button>
+            
+            <!-- 图书推荐按钮 -->
+            <button class="w-full h-[100px] bg-white/80 rounded-2xl shadow-sm flex items-center px-6 transform transition relative overflow-hidden" style="background-color: var(--bg-primary); box-shadow: var(--shadow-sm);">
+                <!-- <div class="absolute inset-0 opacity-10 bg-[url('https://img.icons8.com/ios/100/000000/book--v1.png')] bg-no-repeat bg-right bg-contain"></div> -->
+                <div class="flex items-center justify-center mr-4" style="height:calc(100% - 40px);width: 60px;background: #df8e4933;border-radius: 10px;overflow: hidden;">
+                    <img src="./imgs/icon_book.webp" class="z-10" style="color: #5ea2f0;width: 40px;height: auto"></i>
+                </div>
+                <div class="z-10 text-left">
+                    <span class="text-l font-bold" style="color: var(--text-primary);">图书推荐</span>
+                    <span class="text-sm block mt-1" style="color: var(--text-secondary);">精选好书，助力学习</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 border-t flex justify-around py-4" style="background-color: var(--bg-primary); border-color: var(--border-light);">
+        <button style="color: var(--text-primary);">
+            <img src="./imgs/icon_help_fill.svg"/>
+            <div class="text-xs mt-1">答疑</div>
+        </button>
+        <button style="color: var(--text-light);">
+            <img src="./imgs/icon_repair.svg"/>
+            <div class="text-xs mt-1">做题</div>
+        </button>
+        <button style="color: var(--text-light);">
+            <img src="./imgs/icon_people.svg"/>
+            <div class="text-xs mt-1">我的</div>
+        </button>
+    </div>
+</body>
+</html>
+
+<script>
+    function showTab(tabId) {
+        const tabs = ['question-answer', 'essay-correction', 'learning-qa'];
+        tabs.forEach(id => {
+            const tab = document.getElementById(id);
+            if (id === tabId) {
+                tab.classList.remove('hidden');
+            } else {
+                tab.classList.add('hidden');
+            }
+        });
+
+        const buttons = document.querySelectorAll('.bg-white.shadow-sm button');
+        buttons.forEach(button => {
+            if (button.getAttribute('onclick').includes(tabId)) {
+                button.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+                button.classList.remove('text-gray-600');
+            } else {
+                button.classList.add('text-gray-600');
+                button.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+            }
+        });
+    }
+</script>
